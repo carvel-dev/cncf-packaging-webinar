@@ -1,0 +1,42 @@
+apiVersion: data.packaging.carvel.dev/v1alpha1
+kind: Package
+metadata:
+  name: nginx.test.carvel.dev.1.0.0
+  annotations:
+    kapp.k14s.io/change-group: pkg
+spec:
+  refName: nginx.test.carvel.dev
+  version: 1.0.0
+  releaseNotes: |
+    - add overlays to scale
+  template:
+    spec:
+      fetch:
+      - git:
+          url: https://github.com/bitnami/charts
+          ref: b3619f0a83392ac5e10e298f1f4df980683d8328
+          subPath: bitnami/nginx
+      template:
+      - helmTemplate: {}
+      - ytt:
+          ignoreUnknownComments: true
+          inline:
+            paths:
+              remove-lb.yml: |
+                #@ load("@ytt:overlay", "overlay")
+                #@overlay/match by=overlay.subset({"kind":"Service","metadata":{"name":"nginx"}})
+                ---
+                spec:
+                  type: ClusterIP
+                  #@overlay/remove
+                  externalTrafficPolicy:
+      - kbld: {}
+      deploy:
+      - kapp: {}
+  valuesSchema:
+    openAPIv3:
+      properties:
+        serverBlock:
+          type: string
+          description: Nginx server configuration
+          default: ""

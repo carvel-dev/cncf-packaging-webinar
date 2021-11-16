@@ -1,0 +1,16 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: simple-app
+  namespace: default
+spec:
+  serviceAccountName: default-ns-sa
+  fetch:
+  - inline:
+      pathsFrom:
+      - configMapRef:
+          name: config
+  template:
+  - ytt: {}
+  deploy:
+  - kapp: {}

@@ -1,0 +1,14 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: cert-manager
+  namespace: default
+  annotations:
+    kapp.k14s.io/change-rule: "upsert after upserting repo"
+spec:
+  serviceAccountName: cert-manager-sa
+  packageRef:
+    refName: cert-manager.community.tanzu.vmware.com
+    versionSelection:
+      constraints: 1.3.3
+      # constraints: 1.5.3

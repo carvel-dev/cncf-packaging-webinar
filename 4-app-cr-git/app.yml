@@ -1,0 +1,18 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: simple-app
+  namespace: default
+spec:
+  serviceAccountName: default-ns-sa
+  fetch:
+  - git:
+      url: https://github.com/vmware-tanzu/carvel-simple-app-on-kubernetes
+      ref: origin/develop
+  template:
+  - ytt:
+      paths:
+      - config-step-1-minimal
+      - config-step-2a-overlays
+  deploy:
+  - kapp: {}

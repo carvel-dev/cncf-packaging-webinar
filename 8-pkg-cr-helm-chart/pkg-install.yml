@@ -1,0 +1,31 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: nginx
+  namespace: default
+  annotations:
+    kapp.k14s.io/change-rule: "upsert after upserting pkg"
+spec:
+  serviceAccountName: default-ns-sa
+  packageRef:
+    refName: nginx.test.carvel.dev
+    versionSelection:
+      constraints: 1.0.0
+  values:
+  - secretRef:
+      name: nginx-values
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nginx-values
+  namespace: default
+stringData:
+  data.yml: |
+    serverBlock: |-
+      server {
+        listen 0.0.0.0:8080;
+        location / {
+          return 200 "hello from kapp-controller!";
+        }
+      }

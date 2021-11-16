@@ -1,0 +1,23 @@
+apiVersion: kappctrl.k14s.io/v1alpha1
+kind: App
+metadata:
+  name: simple-app
+  namespace: default
+spec:
+  serviceAccountName: default-ns-sa
+  fetch:
+  - imgpkgBundle:
+      image: k8slt/kctrl-example-pkg
+      tagSelection:
+        semver: {}
+  template:
+  - ytt:
+      paths:
+      - config-step-2-template
+      - config-step-2a-overlays
+  - kbld:
+      paths:
+      - "-"
+      - ".imgpkg/images.yml"
+  deploy:
+  - kapp: {}

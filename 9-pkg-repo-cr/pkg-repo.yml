@@ -1,0 +1,11 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: pkg.test.carvel.dev
+  namespace: default
+  annotations:
+    kapp.k14s.io/change-group: repo
+spec:
+  fetch:
+    imgpkgBundle:
+      image: k8slt/kc-e2e-test-repo

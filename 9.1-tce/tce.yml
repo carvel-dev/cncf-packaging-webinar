@@ -1,0 +1,10 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageRepository
+metadata:
+  name: tce.tanzu.vmware.com
+  namespace: default
+spec:
+  fetch:
+    imgpkgBundle:
+      # projects.registry.vmware.com/tce/main@sha256:7e2e49ae8ffec158cf0b9f33701c31d5f70f4ac3a9688fc28523a95c988d0813
+      image: projects.registry.vmware.com/tce/main:stable

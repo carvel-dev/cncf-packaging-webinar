@@ -1,0 +1,13 @@
+apiVersion: packaging.carvel.dev/v1alpha1
+kind: PackageInstall
+metadata:
+  name: simple-app
+  namespace: default
+  annotations:
+    kapp.k14s.io/change-rule: "upsert after upserting pkg"
+spec:
+  serviceAccountName: default-ns-sa
+  packageRef:
+    refName: pkg.test.carvel.dev
+    versionSelection:
+      constraints: 2.0.0
